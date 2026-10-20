@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESL Question Wheel</title>
+<style>
+:root{--bg:#faf8f4;--fg:#1f2430;--card:#fff;--line:#e3ddd2;--accent:#d9480f}
+@media (prefers-color-scheme:dark){:root{--bg:#171a21;--fg:#f1eee8;--card:#232733;--line:#363b4a;--accent:#ff8a4c}}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif}
+body{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+main{max-width:520px;margin:0 auto;padding:16px;text-align:center}
+h1{font-size:1.3rem;margin:4px 0 14px}
+.wrap{position:relative;width:340px;height:340px;max-width:90vw;max-height:90vw;margin:14px auto 18px}
+.ptr{position:absolute;top:-14px;left:50%;margin-left:-14px;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid var(--fg);z-index:2}
+#w{width:100%;height:100%}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 32px;background:var(--accent);color:#fff;cursor:pointer;font-size:1.05rem}
+button:disabled{opacity:.5}
+#card{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:100px}
+#theme{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+#q{font-size:1.4rem;line-height:1.35;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Spin the Wheel!</h1>
+<div class="wrap"><div class="ptr"></div><div id="w"><svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g><path d="M200 200 L200.0 10.0 A190 190 0 0 1 334.4 65.6 Z" fill="#c2410c" stroke="#fff" stroke-width="2"/><text transform="rotate(-67.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Future</text><path d="M200 200 L334.4 65.6 A190 190 0 0 1 390.0 200.0 Z" fill="#0f766e" stroke="#fff" stroke-width="2"/><text transform="rotate(-22.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Travel</text><path d="M200 200 L390.0 200.0 A190 190 0 0 1 334.4 334.4 Z" fill="#b45309" stroke="#fff" stroke-width="2"/><text transform="rotate(22.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Food</text><path d="M200 200 L334.4 334.4 A190 190 0 0 1 200.0 390.0 Z" fill="#4338ca" stroke="#fff" stroke-width="2"/><text transform="rotate(67.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Work &amp; Study</text><path d="M200 200 L200.0 390.0 A190 190 0 0 1 65.6 334.4 Z" fill="#9d174d" stroke="#fff" stroke-width="2"/><text transform="rotate(112.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Dreams</text><path d="M200 200 L65.6 334.4 A190 190 0 0 1 10.0 200.0 Z" fill="#15803d" stroke="#fff" stroke-width="2"/><text transform="rotate(157.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Daily Life</text><path d="M200 200 L10.0 200.0 A190 190 0 0 1 65.6 65.6 Z" fill="#1d4ed8" stroke="#fff" stroke-width="2"/><text transform="rotate(202.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">Fun</text><path d="M200 200 L65.6 65.6 A190 190 0 0 1 200.0 10.0 Z" fill="#7e22ce" stroke="#fff" stroke-width="2"/><text transform="rotate(247.5 200 200)" x="378" y="200" text-anchor="end" dominant-baseline="central" fill="#fff" font-size="19" font-weight="700" font-family="Arial,Helvetica,sans-serif">People</text><circle cx="200" cy="200" r="20" fill="#fff" stroke="#ccc" stroke-width="2"/></g></svg></div></div>
+<button id="spin">SPIN</button>
+<div id="card"><div id="theme">Ready?</div><div id="q">Press SPIN to get a question.</div></div>
+</main>
+<script>
+const DATA={
+"Future": [
+"What do you want to be in the future?",
+"What will you do after you graduate from junior high school?",
+"If you could live abroad, which country would you choose?",
+"What are you looking forward to this year?",
+"What do you think the world will be like in 50 years?",
+"Do you want to get married or have children someday?",
+"What is one thing you want to try before you are 30?",
+"What will you do this weekend?"
+],
+"Travel": [
+"Where is the best place you have ever visited?",
+"If you could go anywhere tomorrow, where would you go?",
+"Have you ever been to another country?",
+"Do you prefer traveling by plane, train, or car?",
+"What is the most beautiful place in Japan that you have visited?",
+"Do you like planning a trip or going without a plan?",
+"What is one thing you always take on a trip?",
+"Who do you want to travel with? Why?"
+],
+"Food": [
+"What is your favorite food from your hometown?",
+"What is the most delicious food you have ever eaten?",
+"Have you ever tried food from another country?",
+"Can you cook? What is the dish that you cook best?",
+"Is there any food that you don’t like?",
+"Do you prefer sweet food or salty food?",
+"What did you have for breakfast today?",
+"If you could eat one food every day, what would it be?"
+],
+"Work & Study": [
+"What subject do you like the most? Why?",
+"Do you prefer studying alone or with friends?",
+"What is one skill that you want to learn?",
+"What club activity are you doing? What do you like about it?",
+"How long do you study at home every day?",
+"What job do you want to have? Why?",
+"What is the most difficult thing about studying English?",
+"Who is a teacher that has helped you?"
+],
+"Dreams": [
+"What is your biggest dream?",
+"If you could have any job in the world, what would it be?",
+"If you could have any superpower, what would you choose?",
+"If you won a lot of money, what would you buy?",
+"Have you ever had a dream that you remember well?",
+"Who is a person that you want to meet? Why?",
+"What is something that you want to do before you are 40?",
+"What do you want to do to make your dream come true?"
+],
+"Daily Life": [
+"What does a normal day look like for you?",
+"Are you a morning person or a night owl?",
+"What is the first thing you do after you wake up?",
+"What time do you usually go to bed?",
+"What do you usually do after school?",
+"What is the best part of your day?",
+"Do you help with housework? What do you do?",
+"What is a habit that you want to change?"
+],
+"Fun": [
+"What do you do to relax on the weekend?",
+"What is the best movie, game, or show you have seen recently?",
+"If you had a free day, what would you do?",
+"What is your favorite kind of music?",
+"Do you like sports? Do you play or watch them?",
+"What hobby have you enjoyed for a long time?",
+"What is the funniest thing that has happened to you?",
+"Do you prefer staying at home or going out?"
+],
+"People": [
+"Who is a person that you admire? Why?",
+"Tell me about your best friend.",
+"Who in your family are you most like?",
+"What do you think makes a good friend?",
+"Who do you spend the most time with?",
+"Who is a person that has changed your life?",
+"Do you like big parties or small groups?",
+"Who is someone you want to say thank you to?"
+]
+};
+const names=Object.keys(DATA),n=names.length,seg=360/n,bag={};
+let rot=0,busy=false;
+const w=document.getElementById("w"),btn=document.getElementById("spin");
+function pick(t){if(!bag[t]||!bag[t].length)bag[t]=DATA[t].slice().sort(()=>Math.random()-.5);return bag[t].pop()}
+function setRot(d){var v="rotate("+d+"deg)";w.style.webkitTransform=v;w.style.transform=v}
+btn.addEventListener("click",function(){
+if(busy)return;busy=true;btn.disabled=true;
+var start=rot,total=360*(5+Math.floor(Math.random()*3))+Math.random()*360,dur=4500,t0=null;
+function step(now){
+if(t0===null)t0=now;
+var p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,4);
+rot=start+total*e;setRot(rot);
+if(p<1){window.requestAnimationFrame(step);return}
+var rel=((-rot)%360+360)%360,t=names[Math.floor(rel/seg)%n];
+document.getElementById("theme").textContent=t;
+document.getElementById("q").textContent=pick(t);
+busy=false;btn.disabled=false;btn.textContent="SPIN AGAIN";
+}
+window.requestAnimationFrame(step);
+});
+</script></body></html>
